@@ -1,7 +1,7 @@
 Summary: Compact Disc Digital Audio (CDDA) extraction tool (or ripper)
 Name: cdparanoia
 Version: 10.2
-Release: 17%{?dist}
+Release: 13%{?dist}
 # the app is GPLv2, everything else is LGPLv2
 License: GPLv2 and LGPLv2
 Group: Applications/Multimedia
@@ -14,7 +14,6 @@ Patch0: cdparanoia-10.2-#463009.patch
 # #466659
 Patch1: cdparanoia-10.2-endian.patch
 Patch2: cdparanoia-10.2-install.patch
-Patch3: cdparanoia-use-proper-gnu-config-files.patch
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 Requires: cdparanoia-libs = %{version}-%{release}
 Obsoletes: cdparanoia-III <= alpha9.8
@@ -63,11 +62,8 @@ for developing applications to read CD Digital Audio disks.
 %patch0 -p3 -b .#463009
 %patch1 -p1 -b .endian
 %patch2 -p1 -b .install
-%patch3 -p1 -b .use-proper-gnu-config-files.patch
 
 %build
-mv configure.guess config.guess
-mv configure.sub config.sub
 %configure --includedir=%{_includedir}/cdda
 # Using -O0 is mandatory, the build fails otherwise...
 # Also remove many warnings which we are aware of
@@ -107,21 +103,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/*.a
 
 %changelog
-* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 10.2-17
-- Mass rebuild 2014-01-24
-
-* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 10.2-16
-- Mass rebuild 2013-12-27
-
-* Wed Oct 23 2013 Marcin Juszkiewicz <mjuszkiewicz@redhat.com> - 10.2-15
-- Patched configure to use config.{guess,sub} files so %configure macro can
-  replace them with proper version. With this change it builds fine for AArch64
-  architecture.
-  Resolves: rhbz#1023783
-
-* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 10.2-14
-- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
-
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 10.2-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
